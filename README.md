@@ -20,6 +20,12 @@ http://localhost:5177
 
 For students, the host screen displays QR codes and direct URLs. Phones must be on the same Wi-Fi as the laptop running the app.
 
+Default host PIN:
+
+```text
+vled_admin
+```
+
 ## Activity Flow
 
 - Display the host page on the projector.
@@ -80,3 +86,11 @@ npm start
 ```
 
 The app already reads `process.env.PORT`, so platforms like Render and Railway can assign the port automatically.
+
+Set this environment variable on Render:
+
+```text
+HOST_PIN=vled_admin
+```
+
+Student play pages are public. Host pages and host-control APIs require the PIN.

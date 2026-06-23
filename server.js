@@ -5,6 +5,8 @@ const os = require("os");
 
 const PORT = Number(process.env.PORT || 5177);
 const PUBLIC_DIR = path.join(__dirname, "public");
+const HOST_PIN = process.env.HOST_PIN || "vled_admin";
+const HOST_COOKIE = "ai_minor_host";
 
 const solution = [
   [8, 1, 6],
@@ -72,6 +74,46 @@ function json(res, status, data) {
     "Cache-Control": "no-store"
   });
   res.end(body);
+}
+
+function parseCookies(req) {
+  return Object.fromEntries(
+    String(req.headers.cookie || "")
+      .split(";")
+      .map(part => part.trim())
+      .filter(Boolean)
+      .map(part => {
+        const index = part.indexOf("=");
+        if (index === -1) return [part, ""];
+        return [part.slice(0, index), decodeURIComponent(part.slice(index + 1))];
+      })
+  );
+}
+
+function isHostAuthenticated(req) {
+  return parseCookies(req)[HOST_COOKIE] === HOST_PIN;
+}
+
+function isHostPath(pathname) {
+  return pathname === "/" || pathname === "/host" || pathname.startsWith("/host/");
+}
+
+function serveLogin(req, res) {
+  const loginPath = path.join(PUBLIC_DIR, "admin-login.html");
+  fs.readFile(loginPath, (err, data) => {
+    if (err) {
+      res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
+      return res.end("Host login page missing");
+    }
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" });
+    res.end(data);
+  });
+}
+
+function requireHost(req, res) {
+  if (isHostAuthenticated(req)) return true;
+  json(res, 403, { error: "Host PIN required" });
+  return false;
 }
 
 function readBody(req) {
@@ -154,6 +196,9 @@ function scoreMagicSquare(grid) {
 function staticFile(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
   let pathname = decodeURIComponent(url.pathname);
+  if (isHostPath(pathname) && !isHostAuthenticated(req)) {
+    return serveLogin(req, res);
+  }
   if (pathname === "/" || pathname === "/host") pathname = "/index.html";
   if (pathname === "/host/difference") pathname = "/host-activity.html";
   if (pathname === "/host/matrix") pathname = "/host-activity.html";
@@ -193,6 +238,28 @@ function staticFile(req, res) {
 async function api(req, res) {
   const url = new URL(req.url, `http://${req.headers.host}`);
 
+  if (req.method === "POST" && url.pathname === "/api/host-login") {
+    const body = await readBody(req);
+    if (String(body.pin || "") !== HOST_PIN) {
+      return json(res, 401, { ok: false, error: "Invalid host PIN" });
+    }
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      "Set-Cookie": `${HOST_COOKIE}=${encodeURIComponent(HOST_PIN)}; Path=/; HttpOnly; SameSite=Lax; Max-Age=43200`
+    });
+    return res.end(JSON.stringify({ ok: true }));
+  }
+
+  if (req.method === "POST" && url.pathname === "/api/host-logout") {
+    res.writeHead(200, {
+      "Content-Type": "application/json",
+      "Cache-Control": "no-store",
+      "Set-Cookie": `${HOST_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`
+    });
+    return res.end(JSON.stringify({ ok: true }));
+  }
+
   if (req.method === "GET" && url.pathname === "/api/state") {
     return json(res, 200, {
       difference: {
@@ -231,6 +298,7 @@ async function api(req, res) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/start") {
+    if (!requireHost(req, res)) return;
     const body = await readBody(req);
     if (!["difference", "matrix", "fakeReal", "all"].includes(body.activity)) {
       return json(res, 400, { error: "Unknown activity" });
@@ -271,6 +339,7 @@ async function api(req, res) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/reset") {
+    if (!requireHost(req, res)) return;
     const body = await readBody(req);
     if (!["difference", "matrix", "fakeReal", "all"].includes(body.activity)) {
       return json(res, 400, { error: "Unknown activity" });
@@ -305,6 +374,7 @@ async function api(req, res) {
   }
 
   if (req.method === "POST" && url.pathname === "/api/matrix-solution") {
+    if (!requireHost(req, res)) return;
     const body = await readBody(req);
     if (!isValidMatrix(body.solution)) return json(res, 400, { error: "Expected a 3x3 solution grid" });
     const normalized = body.solution.map(row => row.map(v => Number(v)));
