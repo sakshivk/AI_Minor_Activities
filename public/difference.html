@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Find the Differences</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="player-shell">
+    <header class="player-header">
+      <div>
+        <h1>Find the Differences</h1>
+        <p>Enter your name. The game will appear after the host starts the activity.</p>
+      </div>
+      <div class="name-card">
+        <input id="name" placeholder="Your name">
+        <button class="btn green" id="join">Join</button>
+      </div>
+    </header>
+
+    <section class="waiting panel" id="waiting">
+      <h2>Waiting for host to start</h2>
+      <p class="note" id="joinStatus">Enter your name and tap Join.</p>
+      <p class="joined-count"><strong id="joinedCount">0</strong> students joined</p>
+    </section>
+
+    <section class="game-layout" id="game" hidden>
+      <div class="panel">
+        <div class="canvas-pair">
+          <div class="canvas-wrap">
+            <div class="image-label">Original</div>
+            <canvas id="left" width="2752" height="1536"></canvas>
+          </div>
+          <div class="canvas-wrap">
+            <div class="image-label">Find here</div>
+            <canvas id="right" width="2752" height="1536"></canvas>
+          </div>
+        </div>
+        <p class="status" id="status">Tap the five differences on the right image.</p>
+        <button class="btn" id="submit" disabled>Submit</button>
+      </div>
+      <aside class="panel">
+        <h2>Live Leaderboard</h2>
+        <ol class="leaderboard" id="board"></ol>
+      </aside>
+    </section>
+  </main>
+  <script src="/difference.js"></script>
+</body>
+</html>

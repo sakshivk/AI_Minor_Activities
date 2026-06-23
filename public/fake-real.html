@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fake or Real</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="player-shell">
+    <header class="player-header">
+      <div>
+        <h1>Fake or Real</h1>
+        <p>Swipe right for Real. Swipe left for Fake.</p>
+      </div>
+      <div class="name-card">
+        <input id="name" placeholder="Your name">
+        <button class="btn green" id="join">Join</button>
+      </div>
+    </header>
+
+    <section class="waiting panel" id="waiting">
+      <h2>Waiting for host to start</h2>
+      <p class="note" id="joinStatus">Enter your name and tap Join.</p>
+      <p class="joined-count"><strong id="joinedCount">0</strong> students joined</p>
+    </section>
+
+    <section class="game-layout" id="game" hidden>
+      <div class="panel fake-real-game">
+        <div class="swipe-progress" id="progress">Image 1/7</div>
+        <div class="swipe-card" id="card">
+          <img id="gameImage" alt="Fake or real challenge image">
+          <div class="swipe-hint left">Fake</div>
+          <div class="swipe-hint right">Real</div>
+        </div>
+        <div class="swipe-actions">
+          <button class="btn secondary" id="fakeBtn">Fake</button>
+          <button class="btn green" id="realBtn">Real</button>
+        </div>
+        <p class="status" id="status">Choose Fake or Real for each image.</p>
+      </div>
+      <aside class="panel">
+        <h2>Live Leaderboard</h2>
+        <ol class="leaderboard" id="board"></ol>
+      </aside>
+    </section>
+  </main>
+  <script src="/fake-real.js"></script>
+</body>
+</html>

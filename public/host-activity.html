@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Activity Host</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="activity-host">
+    <nav class="host-nav">
+      <a href="/" class="back-link">Back to activities</a>
+      <a href="/host/leaderboards" class="back-link">All leaderboards</a>
+    </nav>
+
+    <section class="qr-stage" id="qrStage">
+      <div>
+        <p class="eyebrow" id="activityLabel">Activity</p>
+        <h1 id="activityTitle">Scan to Join</h1>
+        <p id="activityHelp">Ask students to scan the QR. The game will unlock only after you press Start.</p>
+        <p class="url" id="activityUrl"></p>
+        <div class="actions">
+          <button class="btn green" id="startActivity">Start Activity</button>
+          <button class="btn secondary" id="resetActivity">Reset Waiting Room</button>
+        </div>
+        <div class="joined-host">
+          <h2><span id="hostJoinedCount">0</span> joined</h2>
+          <ol class="joined-list" id="joinedList"></ol>
+        </div>
+      </div>
+      <div class="qr-big-wrap">
+        <img id="activityQr" class="qr-big" alt="Activity QR code">
+      </div>
+    </section>
+
+    <section class="host-live" id="setupPanel">
+      <article class="panel matrix-admin" id="matrixAdmin" hidden>
+        <h2>Magic Matrix Pattern</h2>
+        <p class="note">Paste a 3x3 magic-square pattern before starting. The default target sum is 15. This resets the Magic Matrix leaderboard.</p>
+        <textarea id="solutionInput">816
+357
+492</textarea>
+        <div class="actions">
+          <button class="btn" id="saveSolution">Use This Solution</button>
+          <span class="note" id="solutionStatus"></span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Waiting Room</h2>
+        <p class="note">Students who have entered their name and tapped Join appear above. Press Start when ready.</p>
+      </article>
+    </section>
+
+    <section class="game-live-screen" id="gameLiveScreen" hidden>
+      <div class="game-live-head">
+        <div>
+          <p class="eyebrow">Activity Live</p>
+          <h1 id="liveTitle">Leaderboard</h1>
+        </div>
+        <div class="actions">
+          <button class="btn secondary" id="backToQr">Back to QR</button>
+          <button class="btn secondary" id="resetFromLive">Reset for New Session</button>
+        </div>
+      </div>
+      <article class="panel">
+        <h2 id="boardTitle">Live Leaderboard</h2>
+        <ol class="leaderboard" id="board"></ol>
+      </article>
+    </section>
+  </main>
+  <script src="/host-activity.js"></script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Magic Matrix</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <main class="player-shell">
+    <header class="player-header">
+      <div>
+        <h1>Magic Matrix</h1>
+        <p>Enter your name. Fill the missing cells so every row, column, and diagonal has the same sum.</p>
+      </div>
+      <div class="name-card">
+        <input id="name" placeholder="Your name">
+        <button class="btn green" id="join">Join</button>
+      </div>
+    </header>
+
+    <section class="waiting panel" id="waiting">
+      <h2>Waiting for host to start</h2>
+      <p class="note" id="joinStatus">Enter your name and tap Join.</p>
+      <p class="joined-count"><strong id="joinedCount">0</strong> students joined</p>
+    </section>
+
+    <section class="game-layout" id="game" hidden>
+      <div class="panel">
+        <div class="matrix" id="matrix"></div>
+        <p class="magic-target">Target sum: <strong id="targetSum">15</strong></p>
+        <p class="status" id="status">Fill all missing cells so all 8 lines match the target.</p>
+        <button class="btn" id="submit" disabled>Submit Magic Matrix</button>
+      </div>
+      <aside class="panel">
+        <h2>Live Leaderboard</h2>
+        <ol class="leaderboard" id="board"></ol>
+      </aside>
+    </section>
+  </main>
+  <script src="/matrix.js"></script>
+</body>
+</html>

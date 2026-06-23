@@ -1,0 +1,9 @@
+{
+  "name": "ai-minor-activities",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Local interactive activities for AI Minor graduation ceremony.",
+  "scripts": {
+    "start": "node server.js"
+  }
+}
