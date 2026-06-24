@@ -9,12 +9,17 @@ let hasJoined = false;
 let imagesReady = false;
 
 function getDeviceId() {
-  const existing = localStorage.getItem("aiMinorDeviceId");
+  const existing = localStorage.getItem("viActivitiesDeviceId");
   if (existing) return existing;
+  const legacy = localStorage.getItem("aiMinorDeviceId");
+  if (legacy) {
+    localStorage.setItem("viActivitiesDeviceId", legacy);
+    return legacy;
+  }
   const generated = globalThis.crypto?.randomUUID
     ? globalThis.crypto.randomUUID()
     : `device-${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  localStorage.setItem("aiMinorDeviceId", generated);
+  localStorage.setItem("viActivitiesDeviceId", generated);
   return generated;
 }
 

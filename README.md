@@ -1,6 +1,8 @@
-# AI Minor Activities
+# Vi-Activities
 
-Local web app for three graduation-ceremony activities:
+Reusable live event activity platform with host controls, QR joining, participant waiting rooms, and live leaderboards.
+
+Current activities:
 
 1. Find the Differences
 2. Magic Matrix
@@ -18,7 +20,7 @@ Open the host screen:
 http://localhost:5177
 ```
 
-For students, the host screen displays QR codes and direct URLs. Phones must be on the same Wi-Fi as the laptop running the app.
+For participants, the host screen displays QR codes and direct URLs. Phones must be on the same Wi-Fi as the laptop running the app when running locally.
 
 Default host PIN:
 
@@ -31,13 +33,24 @@ vled_admin
 - Display the host page on the projector.
 - Choose one activity card from the landing page.
 - Display the full-screen QR code.
-- Students scan the QR, enter their name, tap `Join`, and wait on the waiting screen.
+- Participants scan the QR, enter their name, tap `Join`, and wait on the waiting screen.
 - The host screen shows the joined participant count and names.
 - Click `Start Activity` when everyone is ready.
-- Students then see the game, play, and submit.
+- Participants then see the game, play, and submit.
 - The host page switches to the live leaderboard.
 - Go back to the landing page to run the next activity.
 - Award gifts to the top 3 completed entries.
+
+## Reusing for Any Event
+
+The app is intentionally event-neutral. For a new event, you can reuse the same deployment and only change:
+
+- The activity images in `public/assets/`
+- The matrix solution from the host screen
+- The host PIN through the `HOST_PIN` environment variable
+- Any event-specific instructions you want to announce outside the app
+
+The landing page remains generic as `Vi-Activities`, so the same link can be used across ceremonies, workshops, orientations, seminars, and classroom events.
 
 ## Fake or Real
 
@@ -46,7 +59,7 @@ The activity uses 7 images:
 - 4 real images from `real2` through `real5`
 - 3 latest Gemini-generated fake images
 
-Students swipe right for Real and left for Fake. The fallback buttons are available for devices where swipe is unreliable. Leaderboard ranking uses score first and completion time as the tie-breaker.
+Participants swipe right for Real and left for Fake. The fallback buttons are available for devices where swipe is unreliable. Leaderboard ranking uses score first and completion time as the tie-breaker.
 
 ## Magic Matrix Pattern
 
@@ -60,7 +73,7 @@ Example:
 492
 ```
 
-The puzzle gives 4 cells total and hides the remaining cells. Students must fill the square so all 3 rows, 3 columns, and 2 diagonals sum to 15.
+The puzzle gives 4 cells total and hides the remaining cells. Participants must fill the square so all 3 rows, 3 columns, and 2 diagonals sum to 15.
 
 ## Notes
 
@@ -93,4 +106,4 @@ Set this environment variable on Render:
 HOST_PIN=vled_admin
 ```
 
-Student play pages are public. Host pages and host-control APIs require the PIN.
+Participant play pages are public. Host pages and host-control APIs require the PIN.

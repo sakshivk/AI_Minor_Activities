@@ -6,21 +6,21 @@ const meta = {
   difference: {
     title: "Find the Differences",
     label: "Activity 01",
-    help: "Display this QR. Students will see a waiting screen until you press Start.",
+    help: "Display this QR. Participants will see a waiting screen until you press Start.",
     path: "/play/difference",
     total: 5
   },
   matrix: {
     title: "Magic Matrix",
     label: "Activity 02",
-    help: "Display this QR. Students will see a waiting screen until you press Start.",
+    help: "Display this QR. Participants will see a waiting screen until you press Start.",
     path: "/play/matrix",
     total: 8
   },
   fakeReal: {
     title: "Fake or Real",
     label: "Activity 03",
-    help: "Display this QR. Students will join the waiting room, then swipe through the image cards after you press Start.",
+    help: "Display this QR. Participants will join the waiting room, then swipe through the image cards after you press Start.",
     path: "/play/fake-real",
     total: 7
   }
@@ -51,7 +51,7 @@ function renderJoined(rows) {
   node.innerHTML = "";
   if (!rows.length) {
     const li = document.createElement("li");
-    li.textContent = "Waiting for students to join";
+    li.textContent = "Waiting for participants to join";
     node.append(li);
     return;
   }
@@ -78,7 +78,7 @@ async function refresh() {
   const started = Boolean(state[activity].startedAt);
   const joined = state[activity].joined || [];
   document.getElementById("activityHelp").textContent = started
-    ? "Activity is live. Students can play now."
+    ? "Activity is live. Participants can play now."
     : meta.help;
   document.getElementById("startActivity").textContent = started ? "Restart Activity" : "Start Activity";
   document.getElementById("hostJoinedCount").textContent = state[activity].joinedCount || 0;

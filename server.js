@@ -477,6 +477,6 @@ const server = http.createServer((req, res) => {
 
 server.listen(PORT, "0.0.0.0", () => {
   const addresses = localAddresses();
-  console.log(`AI Minor Activities running on http://localhost:${PORT}`);
+  console.log(`Vi-Activities running on http://localhost:${PORT}`);
   if (addresses.length) console.log(`Phone access on same Wi-Fi: ${addresses.join(", ")}`);
 });

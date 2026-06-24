@@ -1,8 +1,8 @@
 {
-  "name": "ai-minor-activities",
+  "name": "vi-activities",
   "version": "1.0.0",
   "private": true,
-  "description": "Local interactive activities for AI Minor graduation ceremony.",
+  "description": "Reusable live event activity platform with QR joining, host controls, and leaderboards.",
   "scripts": {
     "start": "node server.js"
   }
